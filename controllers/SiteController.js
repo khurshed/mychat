@@ -69,8 +69,9 @@ exports.register = async (req, res) => {
     });
     try{
          const saveUser = await user.save(); 
-         return res.header('auth-token', token).status(200).send({"success" : true,"user":saveUser});
+         return res.status(200).send({"success" : true,"user":saveUser});
     }catch(err){
+      console.log(err);
     	return res.status(400).send({"success" : false,"error":err});
     }
 };
