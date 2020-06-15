@@ -5,7 +5,7 @@ const http = require('http');
 const moment = require('moment');
 const date_ob = new Date();
 const current_time = moment(date_ob.getHours() + "." + date_ob.getMinutes(),["HH.mm"]).format("hh:mm a");
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 2003;
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -54,17 +54,12 @@ app.use(express.json());
 app.use('/site', siteRout);
 app.use('/', homeRout);
 
-
-// set static folder
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // run when a client connect
 
 io.on('connect', socket => {
    socket.on('user_connected', function(user) {
-
-    //socket.join('5ecc20470d35c15ad7a74c49');
-    console.log(user.room_id);
     socket.join(user.room_id);
     
   });
@@ -100,7 +95,6 @@ const saveMessage = async (message) => {
          const saveMsg = await chatMsg.save();
          return  saveMsg;
     }catch(err){
-      console.log(err.message);
       return err.message;
     }
 };

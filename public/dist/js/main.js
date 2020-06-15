@@ -12,7 +12,6 @@ $(document).ready(function()
         const message = $.trim($('#msg').val());
         if(message){
             sendmessage.msg.add(message, 'outgoing-message', currentTime());
-            console.log({"client":true, "message":message, "sender" : uid, "receiver": window.localStorage.getItem("receiver")});
             socket.emit("send_message", {"message":message, "user_detail":{"id":uid ,"name" :loginuser}, "sender" : uid, "receiver": window.localStorage.getItem("receiver")});
             $("#msg").val('').focus();
         }
@@ -20,7 +19,6 @@ $(document).ready(function()
 });
 socket.on("message", message => {
   sendmessage.msg.add(message.message, '', message.time);
-  console.log(message);
 });
 var sendmessage = {
         msg: {

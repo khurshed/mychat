@@ -35,6 +35,7 @@ function apiCalls(){
                 	window.localStorage.setItem("login_user_name", response.username);
                 	window.localStorage.setItem("is_user_loggedin", response.loggedin);
                 	window.localStorage.setItem("login_user_id", response.id);
+                    window.localStorage.setItem("auth_token", response.auth_token);
                     window.localStorage.setItem("receiver", 'anonymous');
                     //socket.emit('user_connected', {"room_id" : response.id, "user_name": response.username});
                 	window.location.replace("/");
@@ -50,6 +51,7 @@ this.getUsers = function () {
             type: 'GET',
             url: "/site/users",
             datatype: 'json',
+            headers: {"Authorization": localStorage.getItem('auth_token')},
             beforeSend:function(){
                  
             },

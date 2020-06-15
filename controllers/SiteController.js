@@ -7,9 +7,13 @@ const session = require('express-session');
 
 
 exports.renderIndex = (req, res) => {
-	res.sendFile('index.html', {
-    	root: path.join(__dirname, "../public")
+  if(typeof req.session.loggedin !== "undefined" && req.session.loggedin){
+   res.sendFile('index.html', {
+      root: path.join(__dirname, "../public")
     })
+  }else{
+    res.redirect('/site/login');
+  }
 }
 
 exports.renderLogin = (req, res) => {
@@ -35,7 +39,7 @@ exports.login = async (req, res) => {
         const token = JWT.sign({_id: user._id}, process.env.TOKEN_SECRET);
         req.session.username = user.name;
         req.session.loggedin = true;
-        return res.header('auth-token', token).status(200).send({"success" : true,"loggedin": true, "username": user.name, "id": user._id, "chatroom":req.body.chatroom});
+        return res.header('auth-token', token).status(200).send({"success" : true,"loggedin": true, "username": user.name, "id": user._id, "chatroom":req.body.chatroom, "auth_token" : token});
       } else {
         return res.send("Invalid password"); 
       }
@@ -65,9 +69,9 @@ exports.register = async (req, res) => {
     });
     try{
          const saveUser = await user.save(); 
-         res.status(200).send(saveUser);
+         return res.header('auth-token', token).status(200).send({"success" : true,"user":saveUser});
     }catch(err){
-    	res.status(400).send(err.message)
+    	return res.status(400).send({"success" : false,"error":err});
     }
 };
 
