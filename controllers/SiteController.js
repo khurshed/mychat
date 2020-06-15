@@ -69,10 +69,11 @@ exports.register = async (req, res) => {
     });
     try{
          const saveUser = await user.save(); 
-         return res.status(200).send({"success" : true,"user":saveUser});
+         res.redirect('/site/login');
+         //return res.status(200).send({"success" : true,"user":saveUser});
     }catch(err){
-      console.log(err);
-    	return res.status(400).send({"success" : false,"error":err});
+      res.redirect('/site/register');
+      //return res.status(400).send({"success" : false,"error":err});
     }
 };
 
