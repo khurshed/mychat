@@ -11,6 +11,22 @@ function validateUserInput(){
 		}
 		return errors;
 	}
+    this.register= function(formid){
+        var errors = {"name":"" ,"email": "", "password": "", "has_error" : false};
+        if($(formid).find('#name').val().trim()==''){
+            errors.name = "Please enter name";
+            errors.has_error = true;
+        }
+        if($(formid).find('#email').val().trim()==''){
+            errors.email = "Please enter a valid email";
+            errors.has_error = true;
+        }
+        if($(formid).find('#password').val().trim()==''){
+            errors.password = "Please enter password";
+            errors.has_error = true;
+        }
+        return errors;
+    }
 }
 
 function apiCalls(){
@@ -42,8 +58,39 @@ function apiCalls(){
                 }
             },
             error: function(error){
-                   console.log(response);
+                   console.log(error);
             }
+    })
+},
+this.register = function (formid) {
+        const validation = validateUserInputObj.validateLogin(formid);
+        if(validation.has_error){
+              return false;
+        }
+        var formData = $(formid).serialize();
+        jQuery.ajax({
+            type: 'POST',
+            url: $(formid).attr('action'),
+            datatype: 'json',
+            data: formData, 
+            beforeSend:function(){
+                 
+            },
+            success: function (response, textStatus, request) {
+                if(response.success){
+                    window.location.replace("/site/login?msg=You have registered successfully");
+                }
+            },
+            error: function(error)
+            {
+               if(error.responseText.match(/email/))
+                   $('#email-error').css('display', 'block').text(error.responseText);
+               if(error.responseText.match(/name/))
+                   $('#name-error').css('display', 'block').text(error.responseText);
+               if(error.responseText.match(/password/))
+                   $('#password-error').css('display', 'block').text(error.responseText);
+               console.log(error.responseText);
+            },
     })
 },
 this.getUsers = function () {
@@ -106,11 +153,19 @@ this.setBgColor = function (){
 
 var apiCallsObj = new apiCalls();
 $(document).ready(function(){
-	$('#login-btn').click(function(e)
+    var login_param = location.search.split('login_param=')[1] ? location.search.split('login_param=')[1] : '';
+	if(login_param){
+        $('#login-message').css('display', 'block').text(decodeURIComponent(login_param));
+    }
+    $('#login-btn').click(function(e)
 	{
 		e.preventDefault();
         window.localStorage.clear('name');
 		apiCallsObj.login("#login-form");
 	});
+    $('#register-btn').click(function(e){
+        e.preventDefault();
+        apiCallsObj.register('#register-form');
+    })
     apiCallsObj.getUsers();
 });

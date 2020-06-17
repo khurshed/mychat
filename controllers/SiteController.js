@@ -54,7 +54,7 @@ exports.renderRegister = (req, res) => {
 exports.register = async (req, res) => {
 	const { error } = registerValidation(req.body);
     if(error)
-    res.send(error.details[0].message);
+    res.status(400).send(error.details[0].message);
 
     const emailExist = await User.findOne({email: req.body.email});
     if(emailExist)
@@ -69,11 +69,10 @@ exports.register = async (req, res) => {
     });
     try{
          const saveUser = await user.save(); 
-         res.redirect('/site/login');
-         //return res.status(200).send({"success" : true,"user":saveUser});
+         //res.redirect('/site/login');
+         return res.status(200).send({"success" : true,"user":saveUser});
     }catch(err){
-      res.redirect('/site/register');
-      //return res.status(400).send({"success" : false,"error":err});
+      return res.status(400).send({"success" : false,"error":err});
     }
 };
 

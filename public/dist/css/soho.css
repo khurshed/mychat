@@ -3857,3 +3857,10 @@ body.form-membership .form-wrapper hr {
   margin-left: 30px;
   margin-right: 0px;
 }
+.form-group .error-messege{
+  margin-top: -1.5rem;
+margin-bottom: 1.5rem;
+float: left;
+color: #f95f5f;
+font-size: 12px;
+font-style: italic;}

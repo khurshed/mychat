@@ -39,19 +39,21 @@
     <!-- ./ logo -->
 
     <h5>Create account</h5>
-
     <!-- form -->
-    <form action="/site/register" method="POST">
+    <form action="/site/register" id="register-form" method="POST">
         <div class="form-group input-group-lg">
-            <input type="text" class="form-control" name="name" placeholder="Name" required autofocus>
+            <input type="text" id="name" class="form-control" name="name" placeholder="Name" required autofocus>
+            <div id="name-error" class="error-messege ng-star-inserted" style="display: none"> </div>
         </div>
         <div class="form-group input-group-lg">
-            <input type="email" class="form-control" name="email" placeholder="Email" required>
+            <input type="email" id="email" class="form-control" name="email" placeholder="Email" required>
+            <div id="email-error" class="error-messege ng-star-inserted" style="display: none"> </div>
         </div>
         <div class="form-group input-group-lg">
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
+            <input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
+            <div id="password-error" class="error-messege ng-star-inserted" style="display: none"> </div>
         </div>
-        <button class="btn btn-primary btn-lg btn-block">Register</button>
+        <a style="color:#fff" id="register-btn" class="btn btn-primary btn-lg btn-block">Register</a>
         <hr>
         <p class="text-muted">Already have an account?</p>
         <a href="/site/login" class="btn btn-outline-light btn-sm">Sign in!</a>
@@ -66,7 +68,9 @@
 <script src="/static//vendor/bootstrap/bootstrap.min.js"></script>
 <!-- Nicescroll -->
 <script src="/static//vendor/jquery.nicescroll.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <!-- Soho -->
 <script src="/static//dist/js/soho.min.js"></script>
+<script src="/static/dist/js/apiscall.js"></script>
 </body>
 </html>
