@@ -33,6 +33,8 @@ function apiCalls(){
     const socket= io();
 	const validateUserInputObj = new validateUserInput();
     this.login = function (formid) {
+        $('#email-error').css('display', 'none');
+        $('#password-error').css('display', 'none');
     	const validation = validateUserInputObj.validateLogin(formid);
     	if(validation.has_error){
               return false;
@@ -58,6 +60,7 @@ function apiCalls(){
                 }
             },
             error: function(error){
+                console.log(error.responseText);
                if(error.responseText.match(/email/))
                    $('#email-error').css('display', 'block').text(error.responseText);
                if(error.responseText.match(/password/))
@@ -66,6 +69,9 @@ function apiCalls(){
     })
 },
 this.register = function (formid) {
+        $('#name-error').css('display', 'none');
+        $('#email-error').css('display', 'none');
+        $('#password-error').css('display', 'none');
         const validation = validateUserInputObj.validateLogin(formid);
         if(validation.has_error){
               return false;

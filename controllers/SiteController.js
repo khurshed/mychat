@@ -25,7 +25,7 @@ exports.renderLogin = (req, res) => {
 exports.login = async (req, res) => {
 	const { error } = loginValidation(req.body);
     if(error)
-    return res.send(error.details[0].message);
+    return res.status(400).send(error.details[0].message);
 
     const user = await User.findOne({email: req.body.email});
     if(!user)
@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
 
     bcryptjs.compare(req.body.password, user.password, function(err, result) {
       if (err){
-        return res.send(err); 
+        return res.status(400).send(err); 
       }
       if (result){
         const token = JWT.sign({_id: user._id}, process.env.TOKEN_SECRET);
@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
         req.session.loggedin = true;
         return res.header('auth-token', token).status(200).send({"success" : true,"loggedin": true, "username": user.name, "id": user._id, "chatroom":req.body.chatroom, "auth_token" : token});
       } else {
-        return res.send("Invalid password"); 
+        return res.status(400).send("Invalid password"); 
       }
     });
 } 
