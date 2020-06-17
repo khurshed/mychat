@@ -89,7 +89,7 @@ this.register = function (formid) {
                    $('#name-error').css('display', 'block').text(error.responseText);
                if(error.responseText.match(/password/))
                    $('#password-error').css('display', 'block').text(error.responseText);
-               console.log(error.responseText);
+               
             },
     })
 },
