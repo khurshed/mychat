@@ -58,7 +58,10 @@ function apiCalls(){
                 }
             },
             error: function(error){
-                   console.log(error);
+               if(error.responseText.match(/email/))
+                   $('#email-error').css('display', 'block').text(error.responseText);
+               if(error.responseText.match(/password/))
+                   $('#password-error').css('display', 'block').text(error.responseText);
             }
     })
 },
