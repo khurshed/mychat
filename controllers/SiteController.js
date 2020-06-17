@@ -72,8 +72,8 @@ exports.register = async (req, res) => {
          //res.redirect('/site/login');
          return res.status(200).send({"success" : true,"user":saveUser});
     }catch(ex){
-      console.error('outer', ex.message);
-      return res.status(400).send({"success" : false,"error":ex.message, "kkkk":ex.message});
+  
+      return res.status(400).send({"success" : false,"error":ex.message});
     }
 };
 

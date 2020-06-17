@@ -78,7 +78,7 @@ this.register = function (formid) {
             },
             success: function (response, textStatus, request) {
                 if(response.success){
-                    window.location.replace("/site/login?msg=You have registered successfully");
+                    window.location.replace("/site/login?login_param=You have registered successfully");
                 }
             },
             error: function(error)
